@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glycemic Index & Load Calculator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Glycemic Index Calculator</h1>
+            <p>Type 2 Diabetic Meal Impact Predictor (Prototype)</p>
+        </header>
+
+        <main>
+            <section class="form-section">
+                <form id="mealForm" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="currentSugar">Current Blood Sugar (mg/dL):</label>
+                        <input type="number" id="currentSugar" name="currentSugar" placeholder="e.g., 190" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="mealPlan">Upload Meal Plan (.md):</label>
+                        <input type="file" id="mealPlan" name="mealPlan" accept=".md" required>
+                    </div>
+                    <button type="submit">Calculate Impact</button>
+                </form>
+            </section>
+
+            <section id="results" class="results-section hidden">
+                <h2>Meal Impact Summary</h2>
+                <div id="summaryTable"></div>
+                <div id="prediction"></div>
+                <p class="disclaimer"></p>
+                <button id="resetBtn">Clear Results</button>
+            </section>
+        </main>
+
+        <footer>
+            <p><strong>⚠️ CRITICAL MEDICAL DISCLAIMER:</strong> This is for educational purposes only. Never use this for medical decisions. Consult a doctor for management.</p>
+        </footer>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
