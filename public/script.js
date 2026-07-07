@@ -1,37 +1,53 @@
-document.getElementById('mealForm').addEventListener('submit', async (e) => {
+const mealForm = document.getElementById('mealForm');
+const mealPlanInput = document.getElementById('mealPlan');
+const currentSugarInput = document.getElementById('currentSugar');
+const resultsSection = document.getElementById('results');
+const resetBtn = document.getElementById('resetBtn');
+function isValidBloodSugar(value) {
+    const sugar = Number(value);
+    return Number.isFinite(sugar) && sugar >= 1 && sugar <= 600;
+}
+mealForm.addEventListener('submit', async (e) => {
     e.preventDefault();
-
+    const mealFile = mealPlanInput.files?.[0];
+    if (!mealFile) {
+        alert('Please upload a meal plan file.');
+        return;
+    }
+    if (!isValidBloodSugar(currentSugarInput.value)) {
+        alert('Enter a blood sugar value between 1 and 600 mg/dL.');
+        return;
+    }
     const formData = new FormData();
-    formData.append('mealPlan', document.getElementById('mealPlan').files[0]);
-    formData.append('currentSugar', document.getElementById('currentSugar').value);
-
+    formData.append('mealPlan', mealFile);
+    formData.append('currentSugar', currentSugarInput.value);
     try {
         const response = await fetch('/api/calculate', {
             method: 'POST',
-            body: formData
+            body: formData,
         });
-
         const data = await response.json();
-
+        if (!response.ok) {
+            alert('error' in data ? data.error : 'Request failed.');
+            return;
+        }
         if (data.success) {
             displayResults(data.summary, data.disclaimer);
-        } else {
+        }
+        else {
             alert(data.error);
         }
-    } catch (error) {
+    }
+    catch (error) {
         console.error('Error:', error);
         alert('Failed to connect to the server.');
     }
 });
-
 function displayResults(summary, disclaimerText) {
-    const resultsSection = document.getElementById('results');
     const tableDiv = document.getElementById('summaryTable');
     const predictionDiv = document.getElementById('prediction');
     const disclaimerPara = document.querySelector('.disclaimer');
-
-    // Display Meal Data
-    let tableHtml = `
+    const tableHtml = `
         <table>
             <thead>
                 <tr>
@@ -42,14 +58,16 @@ function displayResults(summary, disclaimerText) {
                 </tr>
             </thead>
             <tbody>
-                ${summary.mealData.map(item => `
+                ${summary.mealData
+        .map((item) => `
                     <tr>
                         <td>${item.food}</td>
                         <td>${item.gi}</td>
                         <td>${item.carbs}</td>
                         <td>${item.gl}</td>
                     </tr>
-                `).join('')}
+                `)
+        .join('')}
             </tbody>
             <tfoot>
                 <tr>
@@ -60,14 +78,14 @@ function displayResults(summary, disclaimerText) {
             </tfoot>
         </table>
     `;
-
     tableDiv.innerHTML = tableHtml;
-
-    // Display Prediction
     if (summary.prediction) {
         const p = summary.prediction;
-        const statusClass = p.status.includes('HIGH') ? 'high' : (p.status.includes('LOW') ? 'low' : 'normal');
-        
+        const statusClass = p.status.includes('HIGH')
+            ? 'high'
+            : p.status.includes('LOW')
+                ? 'low'
+                : 'normal';
         predictionDiv.innerHTML = `
             <div class="prediction-card ${statusClass}">
                 <h3>Predicted Result</h3>
@@ -78,12 +96,14 @@ function displayResults(summary, disclaimerText) {
             </div>
         `;
     }
-
+    else {
+        predictionDiv.innerHTML = '';
+    }
     disclaimerPara.textContent = disclaimerText;
     resultsSection.classList.remove('hidden');
 }
-
-document.getElementById('resetBtn').addEventListener('click', () => {
-    document.getElementById('mealForm').reset();
-    document.getElementById('results').classList.add('hidden');
+resetBtn.addEventListener('click', () => {
+    mealForm.reset();
+    resultsSection.classList.add('hidden');
 });
+export {};

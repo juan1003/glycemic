@@ -10,7 +10,7 @@
     <div class="container">
         <header>
             <h1>Glycemic Index Calculator</h1>
-            <p>Type 2 Diabetic Meal Impact Predictor (Prototype)</p>
+            <p>Meal impact assessment tool</p>
         </header>
 
         <main>
@@ -22,7 +22,7 @@
                     </div>
                     <div class="form-group">
                         <label for="mealPlan">Upload Meal Plan (.md):</label>
-                        <input type="file" id="mealPlan" name="mealPlan" accept=".md" required>
+                        <input type="file" id="mealPlan" name="mealPlan" accept=".md,.markdown,text/markdown,text/plain" required>
                     </div>
                     <button type="submit">Calculate Impact</button>
                 </form>
@@ -38,9 +38,9 @@
         </main>
 
         <footer>
-            <p><strong>⚠️ CRITICAL MEDICAL DISCLAIMER:</strong> This is for educational purposes only. Never use this for medical decisions. Consult a doctor for management.</p>
+            <p><strong>Medical disclaimer:</strong> For educational purposes only. Do not use for medical decisions or insulin dosing. Consult a healthcare professional.</p>
         </footer>
     </div>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

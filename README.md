@@ -4,7 +4,7 @@ This is a prototype for a glycemic load calculator based on meal plans.
 
 Diabetics will thank me and doctors will hate me.
 
-## 🚀 How to Use
+## How to Use
 
 ### 1. Prepare Your Meal Plan
 Create a `.md` file (e.g., `my_meal.md`) listing your food items with their Glycemic Index (GI) and Carbohydrates (g) in the following format:
@@ -16,22 +16,40 @@ Create a `.md` file (e.g., `my_meal.md`) listing your food items with their Glyc
 ```
 
 ### 2. Start the Application
-Run the local server using Node.js:
+Install dependencies and start the server (build runs automatically via `prestart`):
+
 ```bash
-node index.js
+npm install
+npm start
 ```
+
 Open your browser and navigate to `http://localhost:3000`.
 
+To use a different port:
+
+```bash
+PORT=8080 npm start
+```
+
 ### 3. Calculate Your Impact
-1.  **Enter your current blood sugar** level (mg/dL).
-2.  **Upload your meal plan** `.md` file.
-3.  Click **"Calculate Impact"** to see your predicted post-meal blood sugar.
+1. **Enter your current blood sugar** level (mg/dL).
+2. **Upload your meal plan** `.md` file.
+3. Click **"Calculate Impact"** to see your predicted post-meal blood sugar.
 
 ### 4. Review Your Results
 - **Cyan Table:** Displays each food's GI, Carbs, and calculated Glycemic Load (GL).
 - **Magenta Prediction:** Shows your estimated blood sugar rise and status (Low, Normal, or High).
 
+### Development
+
+```bash
+npm run build    # compile server (dist/) and client (public/script.js)
+npm test         # run unit tests
+```
+
+Edit client code in [`client/script.ts`](client/script.ts). The browser loads the generated [`public/script.js`](public/script.js), which is not committed to git.
+
 ---
 
-## ⚠️ Medical Disclaimer
+## Medical Disclaimer
 **This tool is for educational purposes only.** The calculations are estimates and should not be used for medical decisions or insulin dosing. Always consult with a healthcare professional.
